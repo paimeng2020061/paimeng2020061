@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教训市集 - 一元买教训</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            width: 100%;
+        }
+        .card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            text-align: center;
+        }
+        .header {
+            background: #ff6b6b;
+            color: white;
+            padding: 30px 20px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        .tagline {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 80%;
+            margin: 0 auto;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .product-name {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .price {
+            font-size: 4rem;
+            color: #ff6b6b;
+            margin: 20px 0;
+            position: relative;
+            display: inline-block;
+        }
+        .price:after {
+            content: "￥";
+            font-size: 2rem;
+            position: absolute;
+            left: -1.5rem;
+            top: 1rem;
+        }
+        .description {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 25px 0;
+            text-align: left;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95rem;
+        }
+        .btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 18px 45px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+        }
+        .btn:hover {
+            background: #45a049;
+            transform: translateY(-3px);
+            box-shadow: 0 7px 18px rgba(76, 175, 80, 0.6);
+        }
+        .btn:active {
+            transform: translateY(1px);
+        }
+        .features {
+            display: flex;
+            justify-content: space-around;
+            margin: 40px 0 30px;
+            flex-wrap: wrap;
+        }
+        .feature {
+            flex: 0 0 30%;
+            padding: 15px;
+        }
+        .feature i {
+            font-size: 2.5rem;
+            color: #ff6b6b;
+            margin-bottom: 15px;
+        }
+        .feature p {
+            font-size: 0.9rem;
+            color: #555;
+        }
+        .footer {
+            padding: 20px;
+            background: #f8f9fa;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        .disclaimer {
+            margin-top: 30px;
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        /* 弹窗样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: white;
+            max-width: 500px;
+            width: 90%;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            animation: pop 0.4s;
+        }
+        @keyframes pop {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .modal h2 {
+            color: #ff6b6b;
+            margin-bottom: 20px;
+        }
+.modal p {
+            font-size: 1.2rem;
+            margin: 25px 0;
+            line-height: 1.5;
+        }
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        .modal-btn {
+            padding: 12px 30px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+.confirm-btn {
+            background: #ff6b6b;
+            color: white;
+        }
+        .cancel-btn {
+            background: #e0e0e0;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <h1>教训市集</h1>
+                <p class="tagline">支付一元，收获人生智慧</p>
+            </div>
+            <div class="content">
+<h2 class="product-name">买一个教训</h2>
+                <div class="price">1.00</div>
+                <p class="description">
+                    本商品为虚拟精神消费品，旨在通过反讽形式提醒您理性消费。<br>
+                    购买后您将获得一条随机人生哲理，但不会收到实体物品。
+                </p>
+                
+                <div class="warning">
+                     ⚠️ 重要提示：点击购买即代表您理解并接受本商品的性质，且知晓支付后不会获得任何实体商品或服务。
+                </div>
+                
+                <button class="btn" onclick="startPurchase()">立即购买</button>
+                
+                <div class="features">
+                    <div class="feature">
+                        <div>💡</div>
+                        <p>感悟人生哲理</p>
+</div>
+                    <div class="feature">
+                        <div>🛡️</div>
+                        <p>提升消费免疫力</p>
+                    </div>
+                    <div class="feature">
+                        <div>🎁</div>
+                        <p>收获心灵成长</p>
+                    </div>
+                </div>
+                
+                <div class="disclaimer">
+                    *本平台所有收入将用于维护服务器成本及捐赠给消费权益保护组织
+                </div>
+            </div>
+            <div class="footer">
+                © 2023 教训市集 | 人生智慧供应商
+            </div>
+        </div>
+    </div>
+    
+    <!-- 三次确认弹窗 -->
+    <div id="confirmModal1" class="modal">
+<div class="modal-content">
+            <h2>确认购买</h2>
+            <p>您即将花费1元购买一个虚拟教训。<br>确定要继续吗？</p>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel-btn" onclick="closeModal('confirmModal1')">再想想</button>
+                <button class="modal-btn confirm-btn" onclick="showNextModal()">是的，继续</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="confirmModal2" class="modal">
+        <div class="modal-content">
+            <h2>二次确认</h2>
+            <p>这1元可以买到：<br>半度电 / 7分钟空调 / 超市购物袋<br>您仍然要继续购买空气吗？</p>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel-btn" onclick="closeModal('confirmModal2')">我后悔了</button>
+                <button class="modal-btn confirm-btn" onclick="showFinalModal()">坚持购买</button>
+            </div>
+        </div>
+    </div>
+<div id="confirmModal3" class="modal">
+        <div class="modal-content">
+            <h2>最后一次警告</h2>
+            <p>根据《教训市集用户协议》第8条：<br>"购买即视为同意本交易为智商税性质，且不支持退款"</p>
+            <p style="font-weight:bold">您确定要支付这笔学费吗？</p>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel-btn" onclick="closeModal('confirmModal3')">退出</button>
+                <button class="modal-btn confirm-btn" onclick="completePurchase()">确认支付</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="resultModal" class="modal">
+        <div class="modal-content">
+            <h2>🎉 购买成功！</h2>
+            <p id="lessonResult">您获得的教训将显示在这里</p>
+            <p>感谢您为人生智慧投资！</p>
+            <div class="modal-buttons">
+                <button class="modal-btn confirm-btn" onclick="shareLesson()">分享教训</button>
+                <button class="modal-btn cancel-btn" onclick="closeModal('resultModal')">关闭</button>
+            </div>
+</div>
+    </div>
+    <script>
+        // 教训语录库
+        const lessons = [
+            "免费的往往是最贵的",
+            "冲动消费是钱包最大的敌人",
+            "信任需要建立，但验证不可少",
+            "扫码支付的痛感比现金低90%",
+            "天下没有白吃的午餐",
+            "便宜没好货，好货不便宜",
+            "贪小便宜吃大亏",
+            "轻易得来的，也会轻易失去",
+            "投资自己才是最好的回报",
+            "时间才是最昂贵的货币",
+            "免费的奶酪只在捕鼠器上",
+            "所有命运馈赠的礼物，都已在暗中标好价格",
+            "金钱如流水，节约如蓄水",
+"消费前三思：需要吗？适合吗？值得吗？",
+            "优惠券是商家的钓鱼饵",
+            "打折的不是商品，是你的警惕性"
+    ];
+        
+        // 弹窗控制函数
+        function showModal(id) {
+            document.getElementById(id).style.display = 'flex';
+        }
+        
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+        
+        // 购买流程
+        function startPurchase() {
+            showModal('confirmModal1');
+        }
+        
+        function showNextModal() {
+            closeModal('confirmModal1');
+            showModal('confirmModal2');
+        }
+function showNextModal() {
+            closeModal('confirmModal1');
+            showModal('confirmModal2');
+        }
+        
+        function showFinalModal() {
+            closeModal('confirmModal2');
+            showModal('confirmModal3');
+        }
+        
+        // 完成购买
+        function completePurchase() {
+            closeModal('confirmModal3');
+            const randomLesson = lessons[Math.floor(Math.random() * lessons.length)];
+            document.getElementById('lessonResult').innerHTML = 
+                `「${randomLesson}」`;
+            showModal('resultModal');
+        }
+// 分享功能
+        function shareLesson() {
+            const lesson = document.getElementById('lessonResult').innerText;
+            const shareText = `我刚花1元在【教训市集】买了个深刻教训：${lesson} —— 点击体验 ${window.location.href}`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: '我的人生教训',
+                    text: shareText,
+                    url: window.location.href
+                }).catch(console.error);
+            } else {
+                alert('请手动复制分享：\n\n' + shareText);
+            }
+        }
+        
+        // 点击弹窗外部关闭
+        window.onclick = function(event) {
+            const modals = document.getElementsByClassName('modal');
+            for (let modal of modals) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</htm
